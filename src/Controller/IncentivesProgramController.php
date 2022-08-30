@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\BalanceProcessing\BalanceProcessingInterface;
+use App\BalanceProcessing\BalanceProcessing;
 use App\Data\JsonData;
 use App\DTO\IncentivesProgram;
 use App\Service\Serializer\DTOSerializer;
@@ -20,30 +20,29 @@ class IncentivesProgramController extends AbstractController
         JsonData $request,//This can be commented to send post request from POSTMAN, just uncomment the Request below and change GET to POST in the route above
         //Request $request,
         DTOSerializer $serializer, //DTO - Data Transfer Object
-        BalanceProcessingInterface $balanceProcessing
     ): Response
     {
-
-
         //deserialize json request body for processing
         $incentivesProgram = $serializer->deserialize(
             $request->getContent(), IncentivesProgram::class, 'json'
         );
 
+        $balanceProcessing = new BalanceProcessing($incentivesProgram);
+
         //Initialize action, bonus and total balance with previous values
-        $balanceProcessing->initializePoints( $incentivesProgram );
+        $balanceProcessing->initializePoints( );
 
         //check if any bonus has expired and remove from the list and shrink down balances
-        $balanceProcessing->RemoveExpiredBoosterPoints( $incentivesProgram );
+        $balanceProcessing->RemoveExpiredBoosterPoints(  );
 
         //calculate new action points then update action and total balances
-        $balanceProcessing->calculateActionPoints( $incentivesProgram );
+        $balanceProcessing->calculateActionPoints(  );
 
         //calculate booster points then update bonus and total balances
-        $balanceProcessing->calculateBoosterPoints( $incentivesProgram );
+        $balanceProcessing->calculateBoosterPoints(  );
 
         //update all points (action, bonus and total) balances for response
-        $balanceProcessing->updateAllPoints( $incentivesProgram );
+        $balanceProcessing->updateAllPoints(  );
 
         //serialize json for response
         $responseContent = $serializer->serialize($incentivesProgram, 'json');

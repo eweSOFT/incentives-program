@@ -2,17 +2,17 @@
 
 namespace App\BalanceProcessing;
 
-use App\DTO\IncentivesProgram;
+//use App\DTO\IncentivesProgram;
 
 interface BalanceProcessingInterface
 {
-    public function calculateActionPoints( $incentivesProgram );
+    public function calculateActionPoints( ?object $incentivesProgram ):void;
 
-    public function calculateBoosterPoints( $incentivesProgram );
+    public function calculateBoosterPoints( ?object $incentivesProgram ):void;
 
-    public function removeExpiredBoosterPoints( $incentivesProgram );
+    public function removeExpiredBoosterPoints( ?object $incentivesProgram ):void;
 
-    public function initializePoints( $incentivesProgram );
+    public function initializePoints( ?object $incentivesProgram ):void;
 
-    public function updateAllPoints( $incentivesProgram );
+    public function updateAllPoints( ?object $incentivesProgram ):void;
 }
