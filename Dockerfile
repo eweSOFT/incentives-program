@@ -4,6 +4,8 @@ WORKDIR /app
 
 RUN apt-get update
 
+RUN usermod -u 1000 www-data
+
 RUN apt-get -y install git zip libpq-dev
 
 RUN docker-php-ext-install pdo
