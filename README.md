@@ -1,4 +1,4 @@
-# incentives-program
+# Incentives Program
 * The program is written with PHP symfony framework
 * The main controller is in the controller folder with the name src/controller/IncentivesProgramController.php
 * The route for the controller is configured inside the controller file with the endpoint - /calculate-balance, 
