@@ -55,7 +55,7 @@ class JsonData
             "booster_points": [
                 {
                     "points": "10",
-                    "expiry_date": "2022-08-29"
+                    "expiry_date": "2022-09-29"
                 },
                 {
                     "points": "20",
