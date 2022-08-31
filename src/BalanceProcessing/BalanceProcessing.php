@@ -2,60 +2,13 @@
 
 namespace App\BalanceProcessing;
 
-class BalanceProcessing implements IncentivesProgramHouseKeepingInterface
+class BalanceProcessing implements BalanceCalculationInterface
 {
-    public object $incentivesProgram;
-    public function __construct(?object $incentivesProgram){
-        $this->incentivesProgram = $incentivesProgram;
-    }
-
-    public function initializePoints( ):void
-    {
-        $allPoints = $this->incentivesProgram->getAllPoints();
-        $this->incentivesProgram->setActionPoints($allPoints['action_points']);
-        $this->incentivesProgram->setBonusPoints($allPoints['bonus_points']);
-        $this->incentivesProgram->setTotalBalance($allPoints['total_points']);
-    }
-
-    public function RemoveExpiredBoosterPoints( ):void
-    {
-        $newBoosterPoints = [];
-        foreach($this->incentivesProgram->getBoosterPoints() as $key => $value ) {
-            $today = date('Y-m-d'); //get today's date
-            if($value['expiry_date'] >= $today){ // if booster has not expired
-                $newBoosterPoints[] = [ // write a copy to new array
-                    "points"=>$value['points'],
-                    "expiry_date"=>$value['expiry_date']
-                ];
-            }
-            else{// if booster has expired
-                $total = $this->incentivesProgram->getTotalBalance();
-                if($total > 0) { // to be sure the bonus has not been cashed out
-                    if($total >= $value['points']){// to be sure the total balance is still more than the bonus
-                        $total -= $value['points'];
-                        $this->incentivesProgram->setTotalBalance($total);
-                    }
-                    else $this->incentivesProgram->setTotalBalance(0);// set total to zero
-                }
-
-                $bonus = $this->incentivesProgram->getBonusPoints();
-                if($bonus > 0) {// to be sure the bonus has not been cashed out
-                    if($bonus >= $value['points']){// to be sure the total balance is still more than the bonus
-                        $bonus -= $value['points'];
-                        $this->incentivesProgram->setBonusPoints($bonus);
-                    }
-                    else $this->incentivesProgram->setBonusPoints(0);// set total to zero
-                }
-            }
-        }
-        $this->incentivesProgram->setBoosterPoints($newBoosterPoints);
-    }
-
-    public function calculateActionPoints( ):void
+    public function calculateActionPoints( ?object $incentivesProgram ):void
     {
         $sum = 0;
-        foreach($this->incentivesProgram->getActionTypes() as $typeKey=>$typeValue ){
-            foreach($this->incentivesProgram->getActions() as $actionKey=>$actionValue){
+        foreach($incentivesProgram->getActionTypes() as $typeKey=>$typeValue ){
+            foreach($incentivesProgram->getActions() as $actionKey=>$actionValue){
                 if($typeKey == $actionKey){
                     $sum += $actionValue['number'] * $typeValue;
                     break; //since each action is unique
@@ -63,18 +16,18 @@ class BalanceProcessing implements IncentivesProgramHouseKeepingInterface
             }
         }
         $totalBalance = $sum;
-        $sum += $this->incentivesProgram->getActionPoints();
-        $this->incentivesProgram->setActionPoints($sum);
+        $sum += $incentivesProgram->getActionPoints();
+        $incentivesProgram->setActionPoints($sum);
 
-        $totalBalance += $this->incentivesProgram->getTotalBalance();
-        $this->incentivesProgram->setTotalBalance($totalBalance);
+        $totalBalance += $incentivesProgram->getTotalBalance();
+        $incentivesProgram->setTotalBalance($totalBalance);
     }
 
-    public function calculateBoosterPoints( ):void
+    public function calculateBoosterPoints( ?object $incentivesProgram  ):void
     {
         $sum = 0;
-        foreach($this->incentivesProgram->getActions() as $actionKey=>$actionValue ){
-            foreach($this->incentivesProgram->getBoosters() as $boosterKey=>$boosterValue) {
+        foreach($incentivesProgram->getActions() as $actionKey=>$actionValue ){
+            foreach($incentivesProgram->getBoosters() as $boosterKey=>$boosterValue) {
                 $today = date('Y-m-d');// get today's date
                 $dateDiff = $boosterValue['expiry_date'] >= $today;// check if booster has not expired
 
@@ -96,22 +49,13 @@ class BalanceProcessing implements IncentivesProgramHouseKeepingInterface
                 }
             }
         }
-        $this::updateBonus($this->incentivesProgram, $sum);
+        $this::updateBonus($incentivesProgram, $sum);
         $totalBalance = $sum;
-        $sum += $this->incentivesProgram->getBonusPoints();
-        $this->incentivesProgram->setBonusPoints($sum);
+        $sum += $incentivesProgram->getBonusPoints();
+        $incentivesProgram->setBonusPoints($sum);
 
-        $totalBalance += $this->incentivesProgram->getTotalBalance();
-        $this->incentivesProgram->setTotalBalance($totalBalance);
-    }
-
-    public function updateAllPoints( ):void
-    {
-        $this->incentivesProgram->setAllPoints([
-            "action_points"=>$this->incentivesProgram->getActionPoints(),
-            "bonus_points"=> $this->incentivesProgram->getBonusPoints(),
-            "total_points"=>$this->incentivesProgram->getTotalBalance()
-        ]);
+        $totalBalance += $incentivesProgram->getTotalBalance();
+        $incentivesProgram->setTotalBalance($totalBalance);
     }
 
     private static function updateBonus(?object $incentivesProgram, ?int $bonusPoints):void
@@ -128,4 +72,6 @@ class BalanceProcessing implements IncentivesProgramHouseKeepingInterface
             )
         );
     }
+
+
 }
