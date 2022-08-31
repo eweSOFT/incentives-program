@@ -43,6 +43,7 @@ class IncentivesProgramController extends AbstractController
         //Initialize action, bonus and total balances with previous values from all points
         $setup->initializePoints($incentivesProgram);
 
+        //validate booster points and all points
         $validatePoints = $validate->validateBoosterPoints($incentivesProgram);
 
         if(!$validatePoints['response']) {
