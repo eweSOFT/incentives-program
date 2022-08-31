@@ -2,14 +2,14 @@
 
 namespace App\BalanceProcessing;
 
-class BalanceProcessing
+class BalanceProcessing implements BalanceProcessingInterface
 {
     public object $incentivesProgram;
     public function __construct(?object $incentivesProgram){
         $this->incentivesProgram = $incentivesProgram;
     }
 
-public function initializePoints( ):void
+    public function initializePoints( ):void
     {
         $allPoints = $this->incentivesProgram->getAllPoints();
         $this->incentivesProgram->setActionPoints($allPoints['action_points']);

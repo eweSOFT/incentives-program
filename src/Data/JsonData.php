@@ -15,7 +15,7 @@ class JsonData
             },
             "actions": {
                 "delivery": {
-                    "number": "30",
+                    "number": "10",
                     "duration": "4"
                 },
                 "rideshare": {
