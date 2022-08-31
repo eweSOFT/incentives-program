@@ -4,8 +4,8 @@ namespace App\BalanceProcessing;
 
 interface BalanceCalculationInterface
 {
-    public function calculateActionPoints( ):void;
+    public function calculateActionPoints( ?object $incentivesProgram  ):void;
 
-    public function calculateBoosterPoints( ):void;
+    public function calculateBoosterPoints( ?object $incentivesProgram  ):void;
 
 }

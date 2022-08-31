@@ -48,9 +48,9 @@ class JsonData
                 }
             },
             "all_points": {
-                "action_points": "0",
-                "bonus_points": "0",
-                "total_points": "0"
+                "action_points": "10",
+                "bonus_points": "30",
+                "total_points": "40"
             },
             "booster_points": [
                 {
