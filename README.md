@@ -8,7 +8,7 @@ it accept get request from browser or post from postman if the line of code is a
 * I de-activated the API due to the instruction that no DB, No API, No UI.
 <img width="626" alt="Screenshot_98" src="https://user-images.githubusercontent.com/8293802/187547746-341f24a7-33dc-4bf8-81f8-8b8de4fd4e44.png">
 
-#### Please note: I settle for concrete class BalanceProcessing because using class interface was a bit messy especially passing argument to every function. Also because this is a small application, I would have considered using singleton provider container.
+#### Please note: I would have considered using singleton provider container but because it a smaller app.
 
 
 # Assumptions:
