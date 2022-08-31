@@ -2,7 +2,7 @@
 
 namespace App\BalanceProcessing;
 
-class BalanceProcessing implements BalanceProcessingInterface
+class BalanceProcessing implements IncentivesProgramHouseKeepingInterface
 {
     public object $incentivesProgram;
     public function __construct(?object $incentivesProgram){

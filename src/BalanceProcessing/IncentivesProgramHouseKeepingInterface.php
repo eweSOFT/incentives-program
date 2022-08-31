@@ -2,15 +2,11 @@
 
 namespace App\BalanceProcessing;
 
-interface BalanceProcessingInterface
+interface IncentivesProgramHouseKeepingInterface extends BalanceCalculationInterface
 {
     public function initializePoints( ):void;
 
     public function RemoveExpiredBoosterPoints( ):void;
-
-    public function calculateActionPoints( ):void;
-
-    public function calculateBoosterPoints( ):void;
 
     public function updateAllPoints( ):void;
 }

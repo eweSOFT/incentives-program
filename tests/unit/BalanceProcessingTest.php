@@ -2,7 +2,6 @@
 
 namespace App\Tests\unit;
 
-use App\BalanceProcessing\BalanceProcessing;
 use App\DTO\IncentivesProgram;
 use App\Tests\ServiceTestCase;
 
@@ -25,10 +24,11 @@ class BalanceProcessingTest extends ServiceTestCase
         //When
         $total = $this->incentivesProgram->getActionPoints()+$this->incentivesProgram->getBonusPoints();
         $this->assertSame($total,$this->incentivesProgram->getTotalBalance());
+
     }
 
     /** @test */
-    public function a_type_error_is_thrown_when_trying_to_add_a_non_int_value()
+    public function test_that_a_type_error_is_thrown_when_trying_to_add_a_non_int_value()
     {
                 $this->expectException(\TypeError::class);
                 $this->expectExceptionMessage("must be of type ?int");
@@ -42,7 +42,7 @@ class BalanceProcessingTest extends ServiceTestCase
     }
 
     /** @test */
-    public function a_type_error_is_thrown_when_trying_to_add_a_non_array_value()
+    public function test_that_a_type_error_is_thrown_when_trying_to_add_a_non_array_value()
     {
         $this->expectException(\TypeError::class);
         $this->expectExceptionMessage("must be of type ?array");
@@ -85,7 +85,7 @@ class BalanceProcessingTest extends ServiceTestCase
     }
 
     /** @test */
-    public function an_error_is_thrown_when_the_number_of_expected_arguments_is_not_complete()
+    public function an_error_is_thrown_when_the_number_of_expected_arguments_is_not_enough()
     {
         $this->expectException(\Error::class);
         $this->expectExceptionMessage("Too few arguments to function");
